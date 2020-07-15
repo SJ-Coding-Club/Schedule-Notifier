@@ -10,12 +10,17 @@ from selenium import webdriver
 import time
 import os
 import csv
-
+from twilio.rest import Client
 
 # sign into plusportals
 
 USER = '' 
 PASS = ''
+
+TWILIO_SID = ''
+AUTH_TOKEN = ''
+
+twilio_client = Client(TWILIO_SID, AUTH_TOKEN)
 
 driver = webdriver.Firefox()
 
@@ -34,15 +39,19 @@ time.sleep(6)
 
 def check_grades():
 	global driver
+	global twilio_client
 	table = driver.find_element_by_xpath('//*[@id="GridProgress"]/div[2]/table/tbody')
 	if table.size['height'] > 0.0:
 		# notify me
+		message = twilio_client.messages.create(body='schedules posted.', from_='redacted',to='redacted')
 		# this means an item has been added to the table
 		# print('test')
+	print('grades table')
 
 
 def check_messages():
 	global driver
+	global twilio_client
 	driver.find_element_by_xpath('//*[@id="top"]/nav/div/div/div/div/div/ul/li[5]/a').click()
 	time.sleep(3)
 	driver.find_element_by_xpath('//*[@id="tabstripCommunication"]/ul/li[2]/span').click()
@@ -53,8 +62,11 @@ def check_messages():
 	#table containing list of teachers
 	table = driver.find_element_by_xpath('//*[@id="gridMsgRecipient"]/div[2]/table/tbody')
 	if len(table.text) > 50:
+		message = twilio_clientclient.messages.create(body='schedules posted.', from_='+redacted',to='+redacted')
 		# notify me
-		#print(len(table.text))
+	print('messages table')
+	#delet after test
+
 
 check_grades()
 check_messages()
