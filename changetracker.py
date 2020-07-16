@@ -7,6 +7,7 @@ yeah ik this is pretty lame but I'm bored. I use heroku to run it
 '''
 
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 import time
 import os
 import csv
@@ -22,7 +23,9 @@ AUTH_TOKEN = ''
 
 twilio_client = Client(TWILIO_SID, AUTH_TOKEN)
 
-driver = webdriver.Firefox()
+options = Options()
+options.headless = True
+driver = webdriver.Firefox(options=options)
 
 driver.get('https://www.plusportals.com/sjhs')
 
